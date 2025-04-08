@@ -171,10 +171,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 
             // Show cache status if available
             if (data.hasOwnProperty('cached')) {
+                console.log("Adding cache status:", data.cached);  // debug line
                 const cacheStatus = data.cached ? 'Results from cache' : 'Fresh results';
                 const cacheClass = data.cached ? 'cache-stored' : 'cache-fresh';
                 html += `<p class="cache-status ${cacheClass}">${cacheStatus}</p>`;
             }
+            
             
             html += `
                 <p><strong>IP Address:</strong> ${data.ip || 'N/A'}</p>
@@ -254,6 +256,14 @@ document.addEventListener('DOMContentLoaded', function() {
         // Get existing history or initialize empty array
         let history = JSON.parse(localStorage.getItem('domainSearchHistory') || '[]');
         
+        // Check if this domain already exists in history
+        const existingIndex = history.findIndex(item => item.domain === domain);
+        
+        // If domain exists, remove it (we'll add the updated version to the top)
+        if (existingIndex !== -1) {
+            history.splice(existingIndex, 1);
+        }
+        
         // Add new search at the beginning
         history.unshift({
             domain: domain,
@@ -272,6 +282,12 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Update the history display
         loadSearchHistory();
+    }
+
+    function clearSearchHistory() {
+        localStorage.removeItem('domainSearchHistory');
+        loadSearchHistory();
+        console.log('Search history cleared');
     }
     
     /**
