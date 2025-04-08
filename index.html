@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Domain Search Application</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header with Navigation Tabs -->
+    <header>
+        <div class="nav-container">
+            <h1>Domain Search App</h1>
+            <nav>
+                <button class="tab-button" data-tab="home">Home</button>
+                <button class="tab-button" data-tab="about">About Application</button>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- Home Tab Content -->
+        <section id="home" class="tab-content active">
+            <div class="container">
+                <div class="search-container">
+                    <input type="text" id="domainInput" placeholder="Enter domain name (e.g. example.com)">
+                    <button id="searchButton">Search</button>
+                </div>
+
+                <div class="api-selector">
+                    <label>
+                        <input type="radio" name="api" value="external" checked> 
+                        External API
+                    </label>
+                    <label>
+                        <input type="radio" name="api" value="internal"> 
+                        Internal API
+                    </label>
+                </div>
+                
+                <div id="result-container">
+                    <h2>Results</h2>
+                    <div id="loading" class="hidden">Searching...</div>
+                    <div id="error" class="hidden">Error message will appear here</div>
+                    <div id="results"></div>
+                </div>
+                
+                <div id="history-container" class="hidden">
+                    <h2>Search History</h2>
+                    <div id="history-list"></div>
+                </div>
+            </div>
+        </section>
+
+       <!-- About Application Tab Content -->
+        <section id="about" class="tab-content">
+            <div class="container">
+                <h2>About This Application</h2>
+                <p>This Domain Search Application enables users to check domain name details with real-time results. It features both internal and external API integrations and uses caching and local storage for better performance and user experience.</p>
+                <ul>
+                    <li><strong>Dual API Support:</strong> Users can choose between an external WHOIS XML API or an internal PHP-based backend for domain lookup.</li>
+                    <li><strong>Domain Validation:</strong> Ensures users input a valid domain name format before sending the request.</li>
+                    <li><strong>Internal API Backend:</strong> Written in PHP, the backend uses native DNS and WHOIS functions to retrieve domain data such as IP address, DNS records, and WHOIS information.</li>
+                    <li><strong>Caching Mechanism:</strong> The internal API includes a file-based caching system to reduce load time and server requests for recently searched domains (valid for 1 hour).</li>
+                    <li><strong>DNS Record Support:</strong> Displays various DNS records (A, MX, NS, SOA, TXT) and highlights name servers specifically.</li>
+                    <li><strong>WHOIS Lookup:</strong> Attempts to fetch raw WHOIS information using socket connections to TLD-specific WHOIS servers.</li>
+                    <li><strong>External API Integration:</strong> Uses the WHOIS XML API service for more detailed domain ownership and registration data.</li>
+                    <li><strong>Search History:</strong> Stores up to 10 recent searches using browser local storage for quick access and offline reference.</li>
+                    <li><strong>Clickable History:</strong> Users can click a previous search from history to re-display the result instantly, including which API was used.</li>
+                    <li><strong>Responsive UI:</strong> Clean and minimal frontend interface with real-time feedback, loading indicator, and user-friendly error messages.</li>
+                </ul>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer">
+            <p>Project Created by Jasmeet Kaur.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Tab switching logic
+        document.querySelectorAll('.tab-button').forEach(button => {
+            button.addEventListener('click', () => {
+                const targetTab = button.getAttribute('data-tab');
+                document.querySelectorAll('.tab-content').forEach(tab => {
+                    tab.classList.remove('active');
+                });
+                document.getElementById(targetTab).classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
